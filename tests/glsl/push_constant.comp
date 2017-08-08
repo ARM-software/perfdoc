@@ -1,0 +1,76 @@
+#version 310 es
+
+/* Copyright (c) 2017, ARM Limited and Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of charge,
+ * to any person obtaining a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+layout(local_size_x = 1) in;
+
+// Including a push constant block silences the warning.
+#ifdef PUSH_CONSTANT
+layout(std430, push_constant) uniform Push
+{
+	vec4 dummy;
+} registers;
+#endif
+
+struct Foobar
+{
+	vec4 a;
+	vec4 b;
+};
+
+struct FoobarDynamic
+{
+	vec4 a;
+	vec4 b[10];
+};
+
+layout(std140, set = 0, binding = 0) uniform UBO
+{
+	vec4 dummy1[16]; // This cannot be a push constant.
+	vec4 dummy2; // This can be a push constant.
+};
+
+layout(std140, set = 0, binding = 1) uniform UBO1
+{
+	vec4 dummy3; // This can be.
+	Foobar dummy4; // This can be.
+	FoobarDynamic dummy5; // This cannot be.
+};
+
+layout(std140, set = 0, binding = 2) uniform UBOS
+{
+	vec4 dummy;
+} ubos[1]; // Array of UBOs should not be considered.
+
+void main()
+{
+#ifdef PUSH_CONSTANT
+	vec4 dummy = registers.dummy;
+#endif
+
+	vec4 t;
+	t = dummy1[gl_WorkGroupID.x];
+	t = dummy2;
+	t = vec4(dummy3[gl_WorkGroupID.x]); // This is fine.
+	t = dummy4.a;
+	t = dummy5.b[gl_WorkGroupID.x];
+	t = ubos[0].dummy;
+}

@@ -1,0 +1,17 @@
+{
+    "file_format_version" : "1.0.0",
+    "layer" : {
+        "name": "VK_LAYER_ARM_mali_perf_doc",
+        "type": "GLOBAL",
+        "library_path": ".\\VkLayer_mali_perf_doc.dll",
+        "api_version": "1.0.32",
+        "implementation_version": "1",
+        "description": "ARM Mali PerfDoc",
+        "instance_extensions": [
+            {
+                "name": "VK_EXT_debug_report",
+                "spec_version": "3"
+            }
+        ]
+    }
+}

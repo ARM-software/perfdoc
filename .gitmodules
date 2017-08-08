@@ -1,0 +1,3 @@
+[submodule "layer/SPIRV-Cross"]
+	path = layer/SPIRV-Cross
+	url = git://github.com/KhronosGroup/SPIRV-Cross.git
