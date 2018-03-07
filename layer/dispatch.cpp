@@ -942,6 +942,21 @@ static VKAPI_ATTR void VKAPI_CALL CmdResolveImage(VkCommandBuffer commandBuffer,
 
 	cmd->enqueueDeferredFunction([=](Queue &queue) { queue.getQueueTracker().pushWork(QueueTracker::STAGE_TRANSFER); });
 
+	auto *src = layer->get<Image>(srcImage);
+	auto *dst = layer->get<Image>(dstImage);
+
+	for (uint32_t i = 0; i < regionCount; i++)
+	{
+		// Capture-by-value is vital.
+		auto srcRegion = pRegions[i].srcSubresource;
+		auto dstRegion = pRegions[i].dstSubresource;
+
+		cmd->enqueueDeferredFunction([=](Queue &) {
+			src->signalUsage(srcRegion, Image::Usage::ResourceRead);
+			dst->signalUsage(dstRegion, Image::Usage::ResourceWrite);
+		});
+	}
+
 	// Using this function is always a really bad idea, flat out warn on any use of this function.
 	cmd->log(VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT, MESSAGE_CODE_RESOLVE_IMAGE,
 	         "Attempting to use vkCmdResolveImage to resolve a multisampled image. "
