@@ -4,7 +4,7 @@
 
 
 PerfDoc is a Vulkan layer which aims to validate applications against the
-[Mali Application Developer Best Practices](https://developer.arm.com/docs/100971/latest) document.
+[Mali Application Developer Best Practices](https://developer.arm.com/graphics/developer-guides/mali-gpu-best-practices) document.
 
 Just like the LunarG validation layers, this layer tracks your application and attempts to find API usage which is discouraged.
 PerfDoc focuses on checks which can be done up-front, and checks which can portably run on all platforms which support Vulkan.
