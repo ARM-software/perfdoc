@@ -75,7 +75,7 @@ The objectType reported by the layer matches the standard `VK_EXT_debug_report` 
 
 ## To build
 
-See BUILD.md.
+See [BUILD.md](BUILD.md).
 
 ## Config file
 
