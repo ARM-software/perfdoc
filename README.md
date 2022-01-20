@@ -1,5 +1,12 @@
 # PerfDoc
 
+***
+| :warning: WARNING          |
+|:---------------------------|
+| This project has been donated to Khronos Group. Development has now moved to:<br><br>- [Vulkan-ValidationLayers](https://github.com/KhronosGroup/Vulkan-ValidationLayers)<br><br>Please open issues and pull requests there.|
+| This means that best practice checks are now part of `VK_LAYER_KHRONOS_validation`. For more information on how to enable them, see [this blog](https://community.arm.com/arm-community-blogs/b/graphics-gaming-and-vr-blog/posts/arm-best-practice-warnings-in-vulkan-sdk).|
+***
+
 ![perfdocbanner](https://user-images.githubusercontent.com/11390552/31229971-5d89fc18-a9da-11e7-978b-9d806ef39450.png)
 
 
